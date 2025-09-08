@@ -1,0 +1,67 @@
+<% const title = 'All Polls' %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <i class="fas fa-list me-2 text-primary"></i>
+        All Polls
+    </h1>
+    <% if (user) { %>
+    <a href="/polls/create" class="btn btn-success">
+        <i class="fas fa-plus me-2"></i>Create New Poll
+    </a>
+    <% } %>
+</div>
+
+<% if (polls && polls.length > 0) { %>
+    <div class="row">
+        <% polls.forEach(poll => { %>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card poll-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-poll-h me-2 text-primary"></i>
+                        <%= poll.title %>
+                    </h5>
+                    <p class="card-text text-muted">
+                        <%= poll.description ? poll.description.substring(0, 80) + (poll.description.length > 80 ? '...' : '') : 'No description' %>
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <small class="text-muted">
+                            <i class="fas fa-user me-1"></i>
+                            by <%= poll.creator_name %>
+                        </small>
+                        <span class="badge bg-primary">
+                            <i class="fas fa-vote-yea me-1"></i>
+                            <%= poll.total_votes %> votes
+                        </span>
+                    </div>
+                    <small class="text-muted">
+                        <i class="fas fa-calendar me-1"></i>
+                        Created <%= new Date(poll.created_at).toLocaleDateString() %>
+                    </small>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="/polls/<%= poll.id %>" class="btn btn-primary w-100">
+                        <i class="fas fa-eye me-2"></i>View & Vote
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="text-center py-5">
+        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">No polls available</h4>
+        <p class="text-muted">Be the first to create a poll!</p>
+        <% if (user) { %>
+        <a href="/polls/create" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Create Poll
+        </a>
+        <% } else { %>
+        <a href="/register" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i>Sign Up to Create Polls
+        </a>
+        <% } %>
+    </div>
+<% } %>

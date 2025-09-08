@@ -1,0 +1,55 @@
+<% const title = 'My Polls' %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <i class="fas fa-user-check me-2 text-primary"></i>
+        My Polls
+    </h1>
+    <a href="/polls/create" class="btn btn-success">
+        <i class="fas fa-plus me-2"></i>Create New Poll
+    </a>
+</div>
+
+<% if (polls && polls.length > 0) { %>
+    <div class="row">
+        <% polls.forEach(poll => { %>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card poll-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-poll-h me-2 text-primary"></i>
+                        <%= poll.title %>
+                    </h5>
+                    <p class="card-text text-muted">
+                        <%= poll.description ? poll.description.substring(0, 80) + (poll.description.length > 80 ? '...' : '') : 'No description' %>
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-vote-yea me-1"></i>
+                            <%= poll.total_votes %> votes
+                        </span>
+                        <small class="text-muted">
+                            <i class="fas fa-calendar me-1"></i>
+                            <%= new Date(poll.created_at).toLocaleDateString() %>
+                        </small>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="/polls/<%= poll.id %>" class="btn btn-primary w-100">
+                        <i class="fas fa-eye me-2"></i>View Results
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="text-center py-5">
+        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">You haven't created any polls yet</h4>
+        <p class="text-muted">Start engaging with your audience by creating your first poll!</p>
+        <a href="/polls/create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus me-2"></i>Create Your First Poll
+        </a>
+    </div>
+<% } %>
